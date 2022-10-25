@@ -10,22 +10,15 @@ jobs:
           password: $DOCKERHUB_PASSWORD # context / project UI env-var reference
     steps:
       - slack/notify:
-          custom: |
-            {
-              "blocks": [
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "plain_text",
-                      "text": "*This is a text notification*",
-                      "emoji": true
-                    }
-                  ]
-                }
-              ]
-            }
-          event: always
+          branch_pattern: main
+          event: fail
+          mentions: "@beeloontest"
+          template: basic_fail_1
+      - slack/notify:
+          branch_pattern: main
+          event: pass
+          mentions: "@beeloontest"
+          template: success_tagged_deploy_1
 workflows:
   send-notification:
     jobs:
